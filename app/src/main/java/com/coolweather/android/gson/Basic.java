@@ -1,8 +1,5 @@
 package com.coolweather.android.gson;
 
-
-import androidx.room.Update;
-
 import com.google.gson.annotations.SerializedName;
 
 public class Basic {

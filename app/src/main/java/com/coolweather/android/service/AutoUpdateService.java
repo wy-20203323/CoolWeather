@@ -25,7 +25,6 @@ public class AutoUpdateService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
         return null;
     }
 
@@ -37,7 +36,7 @@ public class AutoUpdateService extends Service {
         int anHour = 8*60*60*1000;
         long triggerAtTime = SystemClock.elapsedRealtime()+anHour;
         Intent i=new Intent(this,AutoUpdateService.class);
-        PendingIntent pi = PendingIntent.getActivity(this,0,i,0);
+        PendingIntent pi = PendingIntent.getService(this,0,i,0);
         manager.cancel(pi);
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,triggerAtTime,pi);
         return super.onStartCommand(intent, flags, startId);
@@ -52,7 +51,7 @@ public class AutoUpdateService extends Service {
             Weather weather = Utility.handleWeatherResponse(weatherString);
             String weatherId = weather.basic.weatherId;
             String weatherUrl = "http://guolin.tech/api/weather?cityId="+weatherId+
-                    "&key=...";
+                    "&key=9f7bce175aea4dafa3b15f77129ef6f6";
             HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
                 @Override
                 public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
@@ -90,7 +89,6 @@ public class AutoUpdateService extends Service {
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 e.printStackTrace();
             }
-
         });
     }
 

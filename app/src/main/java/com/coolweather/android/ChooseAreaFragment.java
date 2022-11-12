@@ -136,13 +136,12 @@ public class ChooseAreaFragment extends Fragment {
         titleText.setText("中国");
         backButton.setVisibility(View.GONE);
         provinceList = LitePal.findAll(Province.class);
-        if (provinceList.size() >0){
+        if (provinceList.size() > 0){
             dataList.clear();
-            for (Province province:provinceList
-                 ) {
+            for (Province province:provinceList) {
                 dataList.add(province.getProvinceName());
             }
-            adapter.notifyDataSetChanged();;
+            adapter.notifyDataSetChanged();
             listView.setSelection(0);
             currentLevel = LEVEL_PROVINCE;
         }else {
@@ -156,8 +155,7 @@ public class ChooseAreaFragment extends Fragment {
         cityList = LitePal.where("provinceid = ?",String.valueOf(selectedProvince.getId())).find(City.class);
         if (cityList.size() >0){
             dataList.clear();
-            for (City city:cityList
-            ) {
+            for (City city:cityList) {
                 dataList.add(city.getCityName());
             }
             adapter.notifyDataSetChanged();;
@@ -165,7 +163,7 @@ public class ChooseAreaFragment extends Fragment {
             currentLevel = LEVEL_CITY;
         }else {
             int provinceCode = selectedProvince.getProvinceCode();
-            String address = "http://guolin.tech/api/china"+provinceCode;
+            String address = "http://guolin.tech/api/china/"+provinceCode;
             queryFromServer(address,"city");
         }
     }
@@ -174,7 +172,7 @@ public class ChooseAreaFragment extends Fragment {
         titleText.setText(selectedCity.getCityName());
         backButton.setVisibility(View.VISIBLE);
         countyList = LitePal.where("cityid = ?",String.valueOf(selectedCity.getId())).find(County.class);
-        if (countyList.size() >0){
+        if (countyList.size() > 0){
             dataList.clear();
             for (County county:countyList
             ) {
@@ -213,10 +211,8 @@ public class ChooseAreaFragment extends Fragment {
                         @Override
                         public void run() {
                             closeProgressDialog();
-
-                        }
-
-                        private void closeProgressDialog() {
+                        //}
+                        //private void closeProgressDialog() {
                             if ("province".equals(type)){
                                 queryProvinces();
                             }else if ("city".equals(type)){

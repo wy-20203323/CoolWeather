@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="指数"
+                    android:text="AQI指数"
                     android:textColor="#fff"
                     />
             </LinearLayout>
@@ -64,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="pm2.5指数"
+                    android:text="PM2.5指数"
                     android:textColor="#fff"
                     />
             </LinearLayout>

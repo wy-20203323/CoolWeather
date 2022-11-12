@@ -8,7 +8,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -111,7 +110,7 @@ public class WeatherActivity extends AppCompatActivity {
 
     void requestWeather(String weatherId) {
         String weatherUrl = "http://guolin.tech/api/weather?cityid="+
-                weatherId + "&key=***********";
+                weatherId + "&key=9f7bce175aea4dafa3b15f77129ef6f6";
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -152,11 +151,6 @@ public class WeatherActivity extends AppCompatActivity {
         String requestBingPic = "http://guolin.tech/api/bing_pic";
         HttpUtil.sendOkHttpRequest(requestBingPic, new Callback() {
             @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 final String bingPic = response.body().string();
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
@@ -168,6 +162,10 @@ public class WeatherActivity extends AppCompatActivity {
                         Glide.with(WeatherActivity.this).load(bingPic).into(bingPicImg);
                     }
                 });
+            }
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                e.printStackTrace();
             }
         });
     }
@@ -182,7 +180,9 @@ public class WeatherActivity extends AppCompatActivity {
             String degree = weather.now.temperature + "°C";
             String weatherInfo = weather.now.more.info;
             titleCity.setText(cityName);
-            titleUpdateTime.setText(weatherInfo);
+            titleUpdateTime.setText(updateTime);
+            degreeText.setText(degree);
+            weatherInfoText.setText(weatherInfo);
             forecastLayout.removeAllViews();
             for (Forecast forecast:weather.forecastList) {
                 View view = LayoutInflater.from(this).inflate(R.layout.forecast_item,forecastLayout,false);
@@ -195,7 +195,6 @@ public class WeatherActivity extends AppCompatActivity {
                 maxText.setText(forecast.temperature.max);
                 minText.setText(forecast.temperature.min);
                 forecastLayout.addView(view);
-
             }
             if (weather.aqi != null) {
                 aqiText.setText(weather.aqi.city.aqi);
